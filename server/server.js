@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.get('/categories', (req, res) => {
   Category.find({}).then((categories) => {
-    res.send(categories);
+    res.send({categories});
   }, (e) => {
     res.status(400).send();
   });
