@@ -21,6 +21,18 @@ describe('CATEGORIES', () => {
     });
   });
 
+  describe('GET ID', () => {
+    it('Should return individual category', (done) => {
+      request(app)
+        .get(`/categories/${categories[0]._id.toHexString()}`)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.category.name).toBe(categories[0].name);
+        })
+        .end(done);
+    });
+  });
+
   describe('POST', () => {
     var name = 'test category'
 
