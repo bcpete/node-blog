@@ -37,25 +37,6 @@ app.get('/categories/:id', (req, res) => {
   });
 });
 
-app.get('/categories/:id/posts', (req, res) => {
-  var id = req.params.id;
-
-  if(!ObjectID.isValid(id)){
-    return res.status(404).send();
-  }
-
-  Category.findOne({
-    _id: id
-  }).then((category) => {
-    if(!category){
-      return res.status(404).send();
-    }
-    res.send(category.posts);
-  }).catch((e) => {
-    res.status(400).send();
-  });
-});
-
 app.post('/categories', (req, res) => {
   var category = new Category({
     name:req.body.name,

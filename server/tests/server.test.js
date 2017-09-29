@@ -9,6 +9,7 @@ const {categories, populateCategories} = require('./seed/seed');
 beforeEach(populateCategories);
 
 describe('CATEGORIES', () => {
+  
   describe('GET', () => {
     it('Should get all categories', (done) => {
       request(app)
