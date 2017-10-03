@@ -1,11 +1,12 @@
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
-
+const {Post} = require('./../models/post');
 const {app} = require('./../server');
 const {Category} = require('./../models/category');
-const {categories, populateCategories} = require('./seed/seed');
+const {categories, posts, populatePosts, populateCategories} = require('./seed/seed');
 
+beforeEach(populatePosts);
 beforeEach(populateCategories);
 
 describe('CATEGORIES', () => {
@@ -75,4 +76,33 @@ describe('CATEGORIES', () => {
         });
     });
   });
+});
+
+describe('POSTS', () => {
+  it('Should create a new post', (done) => {
+    var title = 'Some title'
+    var body = 'Some body'
+    var _category = categories[2]._id
+
+    request(app)
+      .post('/posts')
+      .send({title, body, _category})
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.title).toBe(title);
+      })
+      .end((err, res) => {
+        if(err) {
+          return done(err);
+        }
+
+        Post.find({title}).then((posts) => {
+          expect(posts.length).toBe(1);
+          expect(posts[0].body).toBe(body);
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+
 });
