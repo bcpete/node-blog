@@ -20,8 +20,8 @@ app.get('/categories', (req, res) => {
   });
 });
 
-app.get('/posts/category/:id', (req, res) => {
-  var id = req.params.id;
+app.get('/posts/:categoryID', (req, res) => {
+  var id = req.params.categoryID;
 
   if(!ObjectID.isValid(id)){
     return res.status(404).send();

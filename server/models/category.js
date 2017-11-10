@@ -7,12 +7,6 @@ var Category = mongoose.model('Category', {
     minlength: 1,
     trim: true
   },
-  posts: [{
-    _post: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true
-    }
-  }]
 });
 
 module.exports = {Category};

@@ -82,7 +82,7 @@ describe('POSTS', () => {
   it('Should create a new post', (done) => {
     var title = 'Some title'
     var body = 'Some body'
-    var _category = categories[2]._id
+    var _category = categories[2]._id;
 
     request(app)
       .post('/posts')
@@ -99,6 +99,24 @@ describe('POSTS', () => {
         Post.find({title}).then((posts) => {
           expect(posts.length).toBe(1);
           expect(posts[0].body).toBe(body);
+          expect(posts[0]._category.toHexString()).toBe(_category.toHexString());
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+  it('Should not create a new post with invalid body data', (done) => {
+    request(app)
+      .post('/posts')
+      .send({})
+      .expect(400)
+      .end((err, res) => {
+        if(err){
+          return done(err);
+        }
+
+        Post.find().then((posts) => {
+          expect(posts.length).toBe(3);
           done();
         }).catch((e) => done(e));
       });
